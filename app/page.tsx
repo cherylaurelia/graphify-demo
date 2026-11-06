@@ -226,7 +226,7 @@ export default function Home() {
               one graphify query, not from the graph.
             </li>
             <li>
-              Test files, a known gap measured on a real repo: the graph links only {graphTest} of {graphTestTotal}
+              Test files, a known gap measured on a real repo: the graph links only {graphTest} of {graphTestTotal}{" "}
               test-file callers with a calls edge.
               Example: <code className="font-mono">apps/web/pages/api/book/recurring-event.test.ts</code> imports and
               calls <code className="font-mono">expectSuccessfulCalendarEventCreationInCalendar</code> inside an{" "}
