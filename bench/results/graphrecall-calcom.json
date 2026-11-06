@@ -1,0 +1,84 @@
+[
+ {
+  "name": "getWatchlistFeature",
+  "node_found": true,
+  "nonTest_recall": "5/5",
+  "test_recall": "0/0",
+  "extra": [],
+  "missed_nonTest": []
+ },
+ {
+  "name": "getServerSession",
+  "node_found": true,
+  "nonTest_recall": "55/55",
+  "test_recall": "1/2",
+  "extra": [],
+  "missed_nonTest": []
+ },
+ {
+  "name": "useIsEmbed",
+  "node_found": true,
+  "nonTest_recall": "13/13",
+  "test_recall": "1/1",
+  "extra": [],
+  "missed_nonTest": []
+ },
+ {
+  "name": "normalizeEmail",
+  "node_found": true,
+  "nonTest_recall": "10/10",
+  "test_recall": "0/1",
+  "extra": [],
+  "missed_nonTest": []
+ },
+ {
+  "name": "SettingsToggle",
+  "node_found": true,
+  "nonTest_recall": "17/17",
+  "test_recall": "0/0",
+  "extra": [
+   "packages/coss-ui/migration_guide.md"
+  ],
+  "missed_nonTest": []
+ },
+ {
+  "name": "normalizeDomain",
+  "node_found": true,
+  "nonTest_recall": "4/4",
+  "test_recall": "0/1",
+  "extra": [],
+  "missed_nonTest": []
+ },
+ {
+  "name": "DataTableWrapper",
+  "node_found": true,
+  "nonTest_recall": "6/6",
+  "test_recall": "0/0",
+  "extra": [],
+  "missed_nonTest": []
+ },
+ {
+  "name": "buildLegacyRequest",
+  "node_found": true,
+  "nonTest_recall": "37/37",
+  "test_recall": "0/0",
+  "extra": [],
+  "missed_nonTest": []
+ },
+ {
+  "name": "expectSuccessfulCalendarEventCreationInCalendar",
+  "node_found": true,
+  "nonTest_recall": "0/0",
+  "test_recall": "0/5",
+  "extra": [],
+  "missed_nonTest": []
+ },
+ {
+  "name": "getAppFromSlug",
+  "node_found": true,
+  "nonTest_recall": "12/12",
+  "test_recall": "0/0",
+  "extra": [],
+  "missed_nonTest": []
+ }
+]

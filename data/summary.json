@@ -1,0 +1,1226 @@
+[
+ {
+  "label": "calcom-impact",
+  "title": "cal.com, what breaks if I change X (two levels of callers)",
+  "model": "sonnet",
+  "claudeCode": "2.1.318 (Claude Code)",
+  "at": "2026-11-06T06:24:19.310Z",
+  "symbols": 6,
+  "arms": [
+   {
+    "arm": "plain",
+    "runs": 18,
+    "usedGraphify": 0,
+    "allNonTestFound": 15,
+    "nonTestFound": 402,
+    "nonTestTotal": 423,
+    "testFound": 96,
+    "testTotal": 99,
+    "wrong": 10,
+    "unparsed": 0,
+    "medianToolCalls": 4,
+    "rangeToolCalls": [
+     3,
+     9
+    ],
+    "medianInputTokens": 290843,
+    "medianWallS": 33,
+    "costUsd": 2.76
+   },
+   {
+    "arm": "graphify",
+    "runs": 18,
+    "usedGraphify": 18,
+    "allNonTestFound": 15,
+    "nonTestFound": 395,
+    "nonTestTotal": 423,
+    "testFound": 94,
+    "testTotal": 99,
+    "wrong": 2,
+    "unparsed": 0,
+    "medianToolCalls": 4,
+    "rangeToolCalls": [
+     2,
+     10
+    ],
+    "medianInputTokens": 302402.5,
+    "medianWallS": 30,
+    "costUsd": 2.91
+   }
+  ],
+  "questions": [
+   {
+    "symbol": "mockCalendar",
+    "def": "packages/testing/src/lib/bookingScenario/bookingScenario.ts",
+    "nonTestTotal": 0,
+    "testTotal": 19,
+    "arms": {
+     "plain": {
+      "nonTest": [
+       0,
+       0,
+       0
+      ],
+      "test": [
+       19,
+       19,
+       19
+      ],
+      "used": 0,
+      "medianToolCalls": 3
+     },
+     "graphify": {
+      "nonTest": [
+       0,
+       0,
+       0
+      ],
+      "test": [
+       19,
+       19,
+       19
+      ],
+      "used": 3,
+      "medianToolCalls": 3
+     }
+    }
+   },
+   {
+    "symbol": "rateLimiter",
+    "def": "packages/lib/rateLimit.ts",
+    "nonTestTotal": 23,
+    "testTotal": 2,
+    "arms": {
+     "plain": {
+      "nonTest": [
+       23,
+       23,
+       23
+      ],
+      "test": [
+       2,
+       2,
+       2
+      ],
+      "used": 0,
+      "medianToolCalls": 3
+     },
+     "graphify": {
+      "nonTest": [
+       23,
+       23,
+       23
+      ],
+      "test": [
+       2,
+       2,
+       2
+      ],
+      "used": 3,
+      "medianToolCalls": 3
+     }
+    }
+   },
+   {
+    "symbol": "nameOfDay",
+    "def": "packages/lib/weekday.ts",
+    "nonTestTotal": 11,
+    "testTotal": 2,
+    "arms": {
+     "plain": {
+      "nonTest": [
+       6,
+       11,
+       11
+      ],
+      "test": [
+       2,
+       2,
+       2
+      ],
+      "used": 0,
+      "medianToolCalls": 4
+     },
+     "graphify": {
+      "nonTest": [
+       11,
+       11,
+       11
+      ],
+      "test": [
+       2,
+       2,
+       2
+      ],
+      "used": 3,
+      "medianToolCalls": 3
+     }
+    }
+   },
+   {
+    "symbol": "getHttpStatusCode",
+    "def": "packages/lib/server/getServerErrorFromUnknown.ts",
+    "nonTestTotal": 31,
+    "testTotal": 3,
+    "arms": {
+     "plain": {
+      "nonTest": [
+       31,
+       31,
+       31
+      ],
+      "test": [
+       3,
+       3,
+       3
+      ],
+      "used": 0,
+      "medianToolCalls": 4
+     },
+     "graphify": {
+      "nonTest": [
+       31,
+       31,
+       31
+      ],
+      "test": [
+       3,
+       3,
+       3
+      ],
+      "used": 3,
+      "medianToolCalls": 5
+     }
+    }
+   },
+   {
+    "symbol": "loadTranslations",
+    "def": "packages/i18n/server.ts",
+    "nonTestTotal": 49,
+    "testTotal": 3,
+    "arms": {
+     "plain": {
+      "nonTest": [
+       49,
+       49,
+       49
+      ],
+      "test": [
+       3,
+       3,
+       2
+      ],
+      "used": 0,
+      "medianToolCalls": 6
+     },
+     "graphify": {
+      "nonTest": [
+       49,
+       49,
+       49
+      ],
+      "test": [
+       3,
+       3,
+       3
+      ],
+      "used": 3,
+      "medianToolCalls": 5
+     }
+    }
+   },
+   {
+    "symbol": "getPiiFreeCredential",
+    "def": "packages/lib/piiFreeData.ts",
+    "nonTestTotal": 27,
+    "testTotal": 4,
+    "arms": {
+     "plain": {
+      "nonTest": [
+       14,
+       27,
+       24
+      ],
+      "test": [
+       2,
+       4,
+       4
+      ],
+      "used": 0,
+      "medianToolCalls": 7
+     },
+     "graphify": {
+      "nonTest": [
+       19,
+       18,
+       16
+      ],
+      "test": [
+       3,
+       1,
+       3
+      ],
+      "used": 3,
+      "medianToolCalls": 9
+     }
+    }
+   }
+  ],
+  "graph": {
+   "nonTest": {
+    "found": 0,
+    "total": 0
+   },
+   "test": {
+    "found": 0,
+    "total": 0
+   },
+   "extra": 0
+  }
+ },
+ {
+  "label": "calcom-ambiguous",
+  "title": "cal.com, same-named functions",
+  "model": "sonnet",
+  "claudeCode": "2.1.318 (Claude Code)",
+  "at": "2026-11-06T06:12:39.442Z",
+  "symbols": 6,
+  "arms": [
+   {
+    "arm": "plain",
+    "runs": 18,
+    "usedGraphify": 0,
+    "allNonTestFound": 18,
+    "nonTestFound": 372,
+    "nonTestTotal": 372,
+    "testFound": 9,
+    "testTotal": 9,
+    "wrong": 1,
+    "unparsed": 0,
+    "medianToolCalls": 3,
+    "rangeToolCalls": [
+     1,
+     9
+    ],
+    "medianInputTokens": 225858,
+    "medianWallS": 17,
+    "costUsd": 1.55
+   },
+   {
+    "arm": "graphify",
+    "runs": 18,
+    "usedGraphify": 18,
+    "allNonTestFound": 17,
+    "nonTestFound": 371,
+    "nonTestTotal": 372,
+    "testFound": 9,
+    "testTotal": 9,
+    "wrong": 0,
+    "unparsed": 0,
+    "medianToolCalls": 3,
+    "rangeToolCalls": [
+     2,
+     7
+    ],
+    "medianInputTokens": 233922.5,
+    "medianWallS": 19,
+    "costUsd": 1.53
+   }
+  ],
+  "questions": [
+   {
+    "symbol": "convertToSmallestCurrencyUnit",
+    "def": "packages/lib/currencyConversions.ts",
+    "nonTestTotal": 5,
+    "testTotal": 0,
+    "arms": {
+     "plain": {
+      "nonTest": [
+       5,
+       5,
+       5
+      ],
+      "test": [
+       0,
+       0,
+       0
+      ],
+      "used": 0,
+      "medianToolCalls": 3
+     },
+     "graphify": {
+      "nonTest": [
+       5,
+       5,
+       5
+      ],
+      "test": [
+       0,
+       0,
+       0
+      ],
+      "used": 3,
+      "medianToolCalls": 3
+     }
+    }
+   },
+   {
+    "symbol": "useCompatSearchParams",
+    "def": "packages/lib/hooks/useCompatSearchParams.ts",
+    "nonTestTotal": 32,
+    "testTotal": 2,
+    "arms": {
+     "plain": {
+      "nonTest": [
+       32,
+       32,
+       32
+      ],
+      "test": [
+       2,
+       2,
+       2
+      ],
+      "used": 0,
+      "medianToolCalls": 5
+     },
+     "graphify": {
+      "nonTest": [
+       32,
+       32,
+       32
+      ],
+      "test": [
+       2,
+       2,
+       2
+      ],
+      "used": 3,
+      "medianToolCalls": 2
+     }
+    }
+   },
+   {
+    "symbol": "Dialog",
+    "def": "packages/features/components/controlled-dialog/index.tsx",
+    "nonTestTotal": 55,
+    "testTotal": 0,
+    "arms": {
+     "plain": {
+      "nonTest": [
+       55,
+       55,
+       55
+      ],
+      "test": [
+       0,
+       0,
+       0
+      ],
+      "used": 0,
+      "medianToolCalls": 3
+     },
+     "graphify": {
+      "nonTest": [
+       55,
+       55,
+       55
+      ],
+      "test": [
+       0,
+       0,
+       0
+      ],
+      "used": 3,
+      "medianToolCalls": 4
+     }
+    }
+   },
+   {
+    "symbol": "Dialog",
+    "def": "packages/ui/components/dialog/Dialog.tsx",
+    "nonTestTotal": 23,
+    "testTotal": 1,
+    "arms": {
+     "plain": {
+      "nonTest": [
+       23,
+       23,
+       23
+      ],
+      "test": [
+       1,
+       1,
+       1
+      ],
+      "used": 0,
+      "medianToolCalls": 7
+     },
+     "graphify": {
+      "nonTest": [
+       22,
+       23,
+       23
+      ],
+      "test": [
+       1,
+       1,
+       1
+      ],
+      "used": 3,
+      "medianToolCalls": 6
+     }
+    }
+   },
+   {
+    "symbol": "convertFromSmallestToPresentableCurrencyUnit",
+    "def": "packages/lib/currencyConversions.ts",
+    "nonTestTotal": 5,
+    "testTotal": 0,
+    "arms": {
+     "plain": {
+      "nonTest": [
+       5,
+       5,
+       5
+      ],
+      "test": [
+       0,
+       0,
+       0
+      ],
+      "used": 0,
+      "medianToolCalls": 3
+     },
+     "graphify": {
+      "nonTest": [
+       5,
+       5,
+       5
+      ],
+      "test": [
+       0,
+       0,
+       0
+      ],
+      "used": 3,
+      "medianToolCalls": 3
+     }
+    }
+   },
+   {
+    "symbol": "QueryCell",
+    "def": "apps/web/lib/QueryCell.tsx",
+    "nonTestTotal": 4,
+    "testTotal": 0,
+    "arms": {
+     "plain": {
+      "nonTest": [
+       4,
+       4,
+       4
+      ],
+      "test": [
+       0,
+       0,
+       0
+      ],
+      "used": 0,
+      "medianToolCalls": 2
+     },
+     "graphify": {
+      "nonTest": [
+       4,
+       4,
+       4
+      ],
+      "test": [
+       0,
+       0,
+       0
+      ],
+      "used": 3,
+      "medianToolCalls": 3
+     }
+    }
+   }
+  ],
+  "graph": {
+   "nonTest": {
+    "found": 123,
+    "total": 124
+   },
+   "test": {
+    "found": 1,
+    "total": 3
+   },
+   "extra": 0
+  }
+ },
+ {
+  "label": "calcom",
+  "title": "cal.com, uniquely named functions",
+  "model": "sonnet",
+  "claudeCode": "2.1.318 (Claude Code)",
+  "at": "2026-11-06T05:34:24.919Z",
+  "symbols": 10,
+  "arms": [
+   {
+    "arm": "plain",
+    "runs": 30,
+    "usedGraphify": 0,
+    "allNonTestFound": 30,
+    "nonTestFound": 477,
+    "nonTestTotal": 477,
+    "testFound": 30,
+    "testTotal": 30,
+    "wrong": 0,
+    "unparsed": 0,
+    "medianToolCalls": 2,
+    "rangeToolCalls": [
+     1,
+     5
+    ],
+    "medianInputTokens": 168208,
+    "medianWallS": 10,
+    "costUsd": 2.63
+   },
+   {
+    "arm": "graphify",
+    "runs": 30,
+    "usedGraphify": 30,
+    "allNonTestFound": 30,
+    "nonTestFound": 477,
+    "nonTestTotal": 477,
+    "testFound": 30,
+    "testTotal": 30,
+    "wrong": 0,
+    "unparsed": 0,
+    "medianToolCalls": 2,
+    "rangeToolCalls": [
+     1,
+     4
+    ],
+    "medianInputTokens": 174713.5,
+    "medianWallS": 12,
+    "costUsd": 2.97
+   }
+  ],
+  "questions": [
+   {
+    "symbol": "SettingsToggle",
+    "def": "",
+    "nonTestTotal": 17,
+    "testTotal": 0,
+    "arms": {
+     "plain": {
+      "nonTest": [
+       17,
+       17,
+       17
+      ],
+      "test": [
+       0,
+       0,
+       0
+      ],
+      "used": 0,
+      "medianToolCalls": 2
+     },
+     "graphify": {
+      "nonTest": [
+       17,
+       17,
+       17
+      ],
+      "test": [
+       0,
+       0,
+       0
+      ],
+      "used": 3,
+      "medianToolCalls": 2
+     }
+    }
+   },
+   {
+    "symbol": "getAppFromSlug",
+    "def": "",
+    "nonTestTotal": 12,
+    "testTotal": 0,
+    "arms": {
+     "plain": {
+      "nonTest": [
+       12,
+       12,
+       12
+      ],
+      "test": [
+       0,
+       0,
+       0
+      ],
+      "used": 0,
+      "medianToolCalls": 2
+     },
+     "graphify": {
+      "nonTest": [
+       12,
+       12,
+       12
+      ],
+      "test": [
+       0,
+       0,
+       0
+      ],
+      "used": 3,
+      "medianToolCalls": 2
+     }
+    }
+   },
+   {
+    "symbol": "normalizeEmail",
+    "def": "",
+    "nonTestTotal": 10,
+    "testTotal": 1,
+    "arms": {
+     "plain": {
+      "nonTest": [
+       10,
+       10,
+       10
+      ],
+      "test": [
+       1,
+       1,
+       1
+      ],
+      "used": 0,
+      "medianToolCalls": 2
+     },
+     "graphify": {
+      "nonTest": [
+       10,
+       10,
+       10
+      ],
+      "test": [
+       1,
+       1,
+       1
+      ],
+      "used": 3,
+      "medianToolCalls": 3
+     }
+    }
+   },
+   {
+    "symbol": "DataTableWrapper",
+    "def": "",
+    "nonTestTotal": 6,
+    "testTotal": 0,
+    "arms": {
+     "plain": {
+      "nonTest": [
+       6,
+       6,
+       6
+      ],
+      "test": [
+       0,
+       0,
+       0
+      ],
+      "used": 0,
+      "medianToolCalls": 2
+     },
+     "graphify": {
+      "nonTest": [
+       6,
+       6,
+       6
+      ],
+      "test": [
+       0,
+       0,
+       0
+      ],
+      "used": 3,
+      "medianToolCalls": 1
+     }
+    }
+   },
+   {
+    "symbol": "getServerSession",
+    "def": "",
+    "nonTestTotal": 55,
+    "testTotal": 2,
+    "arms": {
+     "plain": {
+      "nonTest": [
+       55,
+       55,
+       55
+      ],
+      "test": [
+       2,
+       2,
+       2
+      ],
+      "used": 0,
+      "medianToolCalls": 3
+     },
+     "graphify": {
+      "nonTest": [
+       55,
+       55,
+       55
+      ],
+      "test": [
+       2,
+       2,
+       2
+      ],
+      "used": 3,
+      "medianToolCalls": 4
+     }
+    }
+   },
+   {
+    "symbol": "useIsEmbed",
+    "def": "",
+    "nonTestTotal": 13,
+    "testTotal": 1,
+    "arms": {
+     "plain": {
+      "nonTest": [
+       13,
+       13,
+       13
+      ],
+      "test": [
+       1,
+       1,
+       1
+      ],
+      "used": 0,
+      "medianToolCalls": 2
+     },
+     "graphify": {
+      "nonTest": [
+       13,
+       13,
+       13
+      ],
+      "test": [
+       1,
+       1,
+       1
+      ],
+      "used": 3,
+      "medianToolCalls": 3
+     }
+    }
+   },
+   {
+    "symbol": "buildLegacyRequest",
+    "def": "",
+    "nonTestTotal": 37,
+    "testTotal": 0,
+    "arms": {
+     "plain": {
+      "nonTest": [
+       37,
+       37,
+       37
+      ],
+      "test": [
+       0,
+       0,
+       0
+      ],
+      "used": 0,
+      "medianToolCalls": 1
+     },
+     "graphify": {
+      "nonTest": [
+       37,
+       37,
+       37
+      ],
+      "test": [
+       0,
+       0,
+       0
+      ],
+      "used": 3,
+      "medianToolCalls": 1
+     }
+    }
+   },
+   {
+    "symbol": "getWatchlistFeature",
+    "def": "",
+    "nonTestTotal": 5,
+    "testTotal": 0,
+    "arms": {
+     "plain": {
+      "nonTest": [
+       5,
+       5,
+       5
+      ],
+      "test": [
+       0,
+       0,
+       0
+      ],
+      "used": 0,
+      "medianToolCalls": 1
+     },
+     "graphify": {
+      "nonTest": [
+       5,
+       5,
+       5
+      ],
+      "test": [
+       0,
+       0,
+       0
+      ],
+      "used": 3,
+      "medianToolCalls": 1
+     }
+    }
+   },
+   {
+    "symbol": "normalizeDomain",
+    "def": "",
+    "nonTestTotal": 4,
+    "testTotal": 1,
+    "arms": {
+     "plain": {
+      "nonTest": [
+       4,
+       4,
+       4
+      ],
+      "test": [
+       1,
+       1,
+       1
+      ],
+      "used": 0,
+      "medianToolCalls": 3
+     },
+     "graphify": {
+      "nonTest": [
+       4,
+       4,
+       4
+      ],
+      "test": [
+       1,
+       1,
+       1
+      ],
+      "used": 3,
+      "medianToolCalls": 2
+     }
+    }
+   },
+   {
+    "symbol": "expectSuccessfulCalendarEventCreationInCalendar",
+    "def": "",
+    "nonTestTotal": 0,
+    "testTotal": 5,
+    "arms": {
+     "plain": {
+      "nonTest": [
+       0,
+       0,
+       0
+      ],
+      "test": [
+       5,
+       5,
+       5
+      ],
+      "used": 0,
+      "medianToolCalls": 1
+     },
+     "graphify": {
+      "nonTest": [
+       0,
+       0,
+       0
+      ],
+      "test": [
+       5,
+       5,
+       5
+      ],
+      "used": 3,
+      "medianToolCalls": 1
+     }
+    }
+   }
+  ],
+  "graph": {
+   "nonTest": {
+    "found": 159,
+    "total": 159
+   },
+   "test": {
+    "found": 2,
+    "total": 10
+   },
+   "extra": 1
+  }
+ },
+ {
+  "label": "tokenboard",
+  "title": "tokenboard (small control repo)",
+  "model": "sonnet",
+  "claudeCode": "2.1.318 (Claude Code)",
+  "at": "2026-11-06T05:35:14.812Z",
+  "symbols": 5,
+  "arms": [
+   {
+    "arm": "plain",
+    "runs": 15,
+    "usedGraphify": 0,
+    "allNonTestFound": 15,
+    "nonTestFound": 90,
+    "nonTestTotal": 90,
+    "testFound": 6,
+    "testTotal": 6,
+    "wrong": 0,
+    "unparsed": 0,
+    "medianToolCalls": 1,
+    "rangeToolCalls": [
+     1,
+     2
+    ],
+    "medianInputTokens": 42723,
+    "medianWallS": 5,
+    "costUsd": 0.36
+   },
+   {
+    "arm": "graphify",
+    "runs": 15,
+    "usedGraphify": 15,
+    "allNonTestFound": 15,
+    "nonTestFound": 90,
+    "nonTestTotal": 90,
+    "testFound": 6,
+    "testTotal": 6,
+    "wrong": 0,
+    "unparsed": 0,
+    "medianToolCalls": 2,
+    "rangeToolCalls": [
+     1,
+     3
+    ],
+    "medianInputTokens": 68575,
+    "medianWallS": 7,
+    "costUsd": 0.52
+   }
+  ],
+  "questions": [
+   {
+    "symbol": "LoadingSkeleton",
+    "def": "",
+    "nonTestTotal": 13,
+    "testTotal": 0,
+    "arms": {
+     "plain": {
+      "nonTest": [
+       13,
+       13,
+       13
+      ],
+      "test": [
+       0,
+       0,
+       0
+      ],
+      "used": 0,
+      "medianToolCalls": 1
+     },
+     "graphify": {
+      "nonTest": [
+       13,
+       13,
+       13
+      ],
+      "test": [
+       0,
+       0,
+       0
+      ],
+      "used": 3,
+      "medianToolCalls": 2
+     }
+    }
+   },
+   {
+    "symbol": "SiteFooter",
+    "def": "",
+    "nonTestTotal": 9,
+    "testTotal": 0,
+    "arms": {
+     "plain": {
+      "nonTest": [
+       9,
+       9,
+       9
+      ],
+      "test": [
+       0,
+       0,
+       0
+      ],
+      "used": 0,
+      "medianToolCalls": 1
+     },
+     "graphify": {
+      "nonTest": [
+       9,
+       9,
+       9
+      ],
+      "test": [
+       0,
+       0,
+       0
+      ],
+      "used": 3,
+      "medianToolCalls": 1
+     }
+    }
+   },
+   {
+    "symbol": "resolveBoardScope",
+    "def": "",
+    "nonTestTotal": 3,
+    "testTotal": 0,
+    "arms": {
+     "plain": {
+      "nonTest": [
+       3,
+       3,
+       3
+      ],
+      "test": [
+       0,
+       0,
+       0
+      ],
+      "used": 0,
+      "medianToolCalls": 2
+     },
+     "graphify": {
+      "nonTest": [
+       3,
+       3,
+       3
+      ],
+      "test": [
+       0,
+       0,
+       0
+      ],
+      "used": 3,
+      "medianToolCalls": 2
+     }
+    }
+   },
+   {
+    "symbol": "microsToUsd2dp",
+    "def": "",
+    "nonTestTotal": 3,
+    "testTotal": 1,
+    "arms": {
+     "plain": {
+      "nonTest": [
+       3,
+       3,
+       3
+      ],
+      "test": [
+       1,
+       1,
+       1
+      ],
+      "used": 0,
+      "medianToolCalls": 1
+     },
+     "graphify": {
+      "nonTest": [
+       3,
+       3,
+       3
+      ],
+      "test": [
+       1,
+       1,
+       1
+      ],
+      "used": 3,
+      "medianToolCalls": 2
+     }
+    }
+   },
+   {
+    "symbol": "readAuthFile",
+    "def": "",
+    "nonTestTotal": 2,
+    "testTotal": 1,
+    "arms": {
+     "plain": {
+      "nonTest": [
+       2,
+       2,
+       2
+      ],
+      "test": [
+       1,
+       1,
+       1
+      ],
+      "used": 0,
+      "medianToolCalls": 1
+     },
+     "graphify": {
+      "nonTest": [
+       2,
+       2,
+       2
+      ],
+      "test": [
+       1,
+       1,
+       1
+      ],
+      "used": 3,
+      "medianToolCalls": 2
+     }
+    }
+   }
+  ],
+  "graph": {
+   "nonTest": {
+    "found": 30,
+    "total": 30
+   },
+   "test": {
+    "found": 0,
+    "total": 2
+   },
+   "extra": 0
+  }
+ }
+]

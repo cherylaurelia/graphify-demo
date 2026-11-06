@@ -1,0 +1,44 @@
+@import "tailwindcss";
+
+/* Palette and type read from graphify.com (computed styles, 2026-11-06): Geist + Geist Mono,
+   ink rgb(6,35,20), body rgb(22,33,27), accent rgb(17,141,79), dashed borders, green hero. */
+:root {
+  --page: #ffffff;
+  --ink: #062314;
+  --body: #16211b;
+  --muted: #4a5a51;
+  --accent: #118d4f;
+  --mint: #e9f7ef;
+  --line: rgba(6, 35, 20, 0.18);
+  --miss: #a3321f;
+}
+
+@theme inline {
+  --color-page: var(--page);
+  --color-ink: var(--ink);
+  --color-body: var(--body);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-mint: var(--mint);
+  --color-line: var(--line);
+  --color-miss: var(--miss);
+  --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+body {
+  background: var(--page);
+  color: var(--body);
+  font-family: var(--font-sans);
+}
+
+.hero-glow {
+  background: linear-gradient(180deg, #f4fbf7 0%, #7fdcaa 45%, #2f9e63 100%);
+}
+
+/* Long identifiers and paths in prose wrap instead of running past the edge on phones. */
+li code,
+li a,
+p code {
+  overflow-wrap: anywhere;
+}

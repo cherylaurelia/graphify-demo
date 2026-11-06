@@ -1,0 +1,52 @@
+[
+ {
+  "name": "convertFromSmallestToPresentableCurrencyUnit",
+  "node_found": true,
+  "nonTest_recall": "5/5",
+  "test_recall": "0/0",
+  "extra": [],
+  "missed_nonTest": []
+ },
+ {
+  "name": "convertToSmallestCurrencyUnit",
+  "node_found": true,
+  "nonTest_recall": "5/5",
+  "test_recall": "0/0",
+  "extra": [],
+  "missed_nonTest": []
+ },
+ {
+  "name": "Dialog",
+  "node_found": true,
+  "nonTest_recall": "55/55",
+  "test_recall": "0/0",
+  "extra": [],
+  "missed_nonTest": []
+ },
+ {
+  "name": "Dialog",
+  "node_found": true,
+  "nonTest_recall": "22/23",
+  "test_recall": "0/1",
+  "extra": [],
+  "missed_nonTest": [
+   "packages/features/components/controlled-dialog/index.tsx"
+  ]
+ },
+ {
+  "name": "QueryCell",
+  "node_found": true,
+  "nonTest_recall": "4/4",
+  "test_recall": "0/0",
+  "extra": [],
+  "missed_nonTest": []
+ },
+ {
+  "name": "useCompatSearchParams",
+  "node_found": true,
+  "nonTest_recall": "32/32",
+  "test_recall": "1/2",
+  "extra": [],
+  "missed_nonTest": []
+ }
+]

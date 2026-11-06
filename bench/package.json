@@ -1,0 +1,6 @@
+{
+  "name": "graphify-agent-bench-scripts",
+  "private": true,
+  "description": "Who-calls bench: ground truth (truth.js, truth-ambiguous.js), runner (bench.mjs), scoring (score.mjs)",
+  "dependencies": { "typescript": "5.9.3" }
+}

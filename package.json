@@ -1,0 +1,27 @@
+{
+  "name": "graphify-agent-bench",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "oxlint",
+    "test": "node --test lib/*.test.ts bench/*.test.mjs"
+  },
+  "dependencies": {
+    "next": "16.4.5",
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
+  },
+  "devDependencies": {
+    "@oxlint/plugins": "1.78.0",
+    "@tailwindcss/turbopack": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "oxlint": "1.78.0",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}

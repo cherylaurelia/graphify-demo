@@ -1,0 +1,134 @@
+{
+ "repo": "tokenboard",
+ "candidates": 27,
+ "typescript": "5.9.3",
+ "symbols": [
+  {
+   "name": "microsToUsd2dp",
+   "def": "web/src/lib/redis/micro-dollars.ts",
+   "otherDefs": [],
+   "callers": [
+    "web/src/lib/admin/admin-shape.ts",
+    "web/src/lib/leaderboard/assemble-board.ts",
+    "web/src/lib/leaderboard/window-sums-batch.ts",
+    "web/test/leaderboard/micro-dollars.test.ts"
+   ],
+   "otherCallerFiles": [],
+   "unresolvedImports": false,
+   "nonTest": [
+    "web/src/lib/admin/admin-shape.ts",
+    "web/src/lib/leaderboard/assemble-board.ts",
+    "web/src/lib/leaderboard/window-sums-batch.ts"
+   ],
+   "test": [
+    "web/test/leaderboard/micro-dollars.test.ts"
+   ]
+  },
+  {
+   "name": "LoadingSkeleton",
+   "def": "web/src/components/loading-skeleton.tsx",
+   "otherDefs": [],
+   "callers": [
+    "web/src/app/auth/auth-code-error/loading.tsx",
+    "web/src/app/claim/loading.tsx",
+    "web/src/app/communities/loading.tsx",
+    "web/src/app/communities/new/loading.tsx",
+    "web/src/app/community/[slug]/loading.tsx",
+    "web/src/app/global/loading.tsx",
+    "web/src/app/loading.tsx",
+    "web/src/app/me/loading.tsx",
+    "web/src/app/profile/loading.tsx",
+    "web/src/app/tuna/loading.tsx",
+    "web/src/app/user/[handle]/loading.tsx",
+    "web/src/app/verify/email/confirm/loading.tsx",
+    "web/src/app/verify/email/loading.tsx"
+   ],
+   "otherCallerFiles": [],
+   "unresolvedImports": false,
+   "nonTest": [
+    "web/src/app/auth/auth-code-error/loading.tsx",
+    "web/src/app/claim/loading.tsx",
+    "web/src/app/communities/loading.tsx",
+    "web/src/app/communities/new/loading.tsx",
+    "web/src/app/community/[slug]/loading.tsx",
+    "web/src/app/global/loading.tsx",
+    "web/src/app/loading.tsx",
+    "web/src/app/me/loading.tsx",
+    "web/src/app/profile/loading.tsx",
+    "web/src/app/tuna/loading.tsx",
+    "web/src/app/user/[handle]/loading.tsx",
+    "web/src/app/verify/email/confirm/loading.tsx",
+    "web/src/app/verify/email/loading.tsx"
+   ],
+   "test": []
+  },
+  {
+   "name": "SiteFooter",
+   "def": "web/src/components/site-footer.tsx",
+   "otherDefs": [],
+   "callers": [
+    "web/src/app/claim/page.tsx",
+    "web/src/app/communities/new/page.tsx",
+    "web/src/app/communities/page.tsx",
+    "web/src/app/community/[slug]/not-found.tsx",
+    "web/src/app/community/[slug]/page.tsx",
+    "web/src/app/page.tsx",
+    "web/src/app/tuna/page.tsx",
+    "web/src/app/user/[handle]/page.tsx",
+    "web/src/app/verify/email/verify-page-shell.tsx"
+   ],
+   "otherCallerFiles": [],
+   "unresolvedImports": false,
+   "nonTest": [
+    "web/src/app/claim/page.tsx",
+    "web/src/app/communities/new/page.tsx",
+    "web/src/app/communities/page.tsx",
+    "web/src/app/community/[slug]/not-found.tsx",
+    "web/src/app/community/[slug]/page.tsx",
+    "web/src/app/page.tsx",
+    "web/src/app/tuna/page.tsx",
+    "web/src/app/user/[handle]/page.tsx",
+    "web/src/app/verify/email/verify-page-shell.tsx"
+   ],
+   "test": []
+  },
+  {
+   "name": "readAuthFile",
+   "def": "cli/src/config/auth-store.ts",
+   "otherDefs": [],
+   "callers": [
+    "cli/src/commands/preview.ts",
+    "cli/src/commands/sync.ts",
+    "cli/test/auth-store.test.ts"
+   ],
+   "otherCallerFiles": [],
+   "unresolvedImports": false,
+   "nonTest": [
+    "cli/src/commands/preview.ts",
+    "cli/src/commands/sync.ts"
+   ],
+   "test": [
+    "cli/test/auth-store.test.ts"
+   ]
+  },
+  {
+   "name": "resolveBoardScope",
+   "def": "web/src/lib/leaderboard/resolve-scope.ts",
+   "otherDefs": [],
+   "callers": [
+    "web/src/app/api/og/community/[slug]/route.tsx",
+    "web/src/app/api/v1/board/route.ts",
+    "web/src/app/community/[slug]/page.tsx"
+   ],
+   "otherCallerFiles": [],
+   "unresolvedImports": false,
+   "nonTest": [
+    "web/src/app/api/og/community/[slug]/route.tsx",
+    "web/src/app/api/v1/board/route.ts",
+    "web/src/app/community/[slug]/page.tsx"
+   ],
+   "test": []
+  }
+ ],
+ "resolver": "named + default imports"
+}
