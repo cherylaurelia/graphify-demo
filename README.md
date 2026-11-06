@@ -22,6 +22,11 @@ Live page: see the repo description. Unofficial demo by Cheryl Aurelia: not affi
 | | + graphify | 15/15 | 90/90 | 0 | 69K |
 
 - Claude Code used graphify in 81 of 81 runs where it was installed.
+- Every graphify-arm run started with one `graphify query`; none used `graphify affected`. On the worst impact
+  question (getPiiFreeCredential) `graphify affected "getPiiFreeCredential()" --depth 2` on the same graph lists all
+  31 truth files (plus 55 that only import a name in the chain; `bench/results/affected-getPiiFreeCredential.txt`),
+  while agents with graphify listed 19–22. The rule `graphify install` writes names query/path/explain, not affected;
+  pointing what-breaks questions at `graphify affected X --depth 2` is untested here.
 - Impact questions: 5 of 6 came out the same in both arms. On getPiiFreeCredential (callers include the default-exported EventManager class) graphify-arm runs stopped at 19–22 of 31 files; plain runs found 16, 31 and 28. graph.json has those edges; the agent didn't follow them. Files outside the two-level set: 2 vs 10 (9 of plain's were level-3 callers).
 - Read straight from `graph.json`, graphify links 282 of 283 non-test caller files on cal.com and none of the
   callers of a different same-named definition. Test-file callers: 3 of 13 have a calls edge. This is the known

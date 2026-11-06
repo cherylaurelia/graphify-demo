@@ -3,6 +3,10 @@ import summary from "@/data/summary.json";
 const REPO = "https://github.com/cherylaurelia/graphify-demo";
 const BENCH = `${REPO}/tree/main/bench`;
 const CALCOM_COMMIT = "2eb48ec";
+
+// `graphify affected "getPiiFreeCredential()" --depth 2` on the same graph, checked against the truth file
+// (bench/results/affected-getPiiFreeCredential.txt): every truth file is listed, plus files that only import a name in the chain.
+const AFFECTED = { hit: 31, total: 31, extra: 55 };
 const GAP_TEST = "https://github.com/Graphify-Labs/graphify/blob/v8/tests/test_js_module_level_anonymous_calls.py";
 
 type Set = (typeof summary)[number];
@@ -163,16 +167,17 @@ export default function Home() {
             the documented way? {graphRuns * 2} real runs, scored by script against compiler-parsed ground truth.
           </p>
           <p className="mx-auto mt-3 max-w-2xl text-center text-lg text-ink">
-            Claude Code used graphify in every run where it was installed, and graphify&apos;s graph was right on non-test
-            callers ({graphNonTest}/{graphNonTestTotal}). The agents&apos; answers were not better for it: on who-calls questions both arms found
-            every caller, and on impact questions plain was slightly ahead ({missed(impPlain)} vs {missed(impGraph)}{" "}
-            files missed of {impPlain.nonTestTotal + impPlain.testTotal}), all from one function whose callers run through a
-            class: graphify-arm runs left out that class&apos;s callers, which graph.json has. That and a known test-file gap are below.
+            The graph was right: {graphNonTest} of {graphNonTestTotal} non-test callers. The agents using it were not
+            better than grep: {missed(impGraph)} vs {missed(impPlain)} files missed of{" "}
+            {impPlain.nonTestTotal + impPlain.testTotal} on impact questions, and 4–60% more input tokens on who-calls
+            questions. Every graphify run asked <code className="font-mono">graphify query</code> once; the command
+            that answers “what breaks” in one call, <code className="font-mono">graphify affected --depth 2</code>, was
+            never used.
           </p>
           <div className="mx-auto mt-10 grid max-w-4xl gap-3 sm:grid-cols-3">
             <Stat value={`${used}/${graphRuns}`} label="runs used graphify when installed: the hooks and CLAUDE.md rule that graphify install --project writes send the agent there first" />
             <Stat value={`${graphNonTest}/${graphNonTestTotal}`} label="non-test callers graph.json links on its own on cal.com, with 0 callers of a different same-named function" />
-            <Stat value={`${graphTestTotal - graphTest} of ${graphTestTotal}`} label="test-file callers with no calls edge: a known gap graphify's own #3124 test documents, still there on 0.9.103" />
+            <Stat value={`${AFFECTED.hit}/${AFFECTED.total}`} label={`files graphify affected --depth 2 returns on the worst impact question, where agents with graphify listed ${perRun(piiQ, "graphify")}`} />
           </div>
         </div>
       </section>
@@ -221,7 +226,8 @@ export default function Home() {
               one graphify query, not from the graph.
             </li>
             <li>
-              Test files: the graph links only {graphTest} of {graphTestTotal} test-file callers with a calls edge.
+              Test files, a known gap measured on a real repo: the graph links only {graphTest} of {graphTestTotal}
+              test-file callers with a calls edge.
               Example: <code className="font-mono">apps/web/pages/api/book/recurring-event.test.ts</code> imports and
               calls <code className="font-mono">expectSuccessfulCalendarEventCreationInCalendar</code> inside an{" "}
               <code className="font-mono">it</code> block; graph.json has the imports edge but no calls edge. This is the
@@ -237,15 +243,21 @@ export default function Home() {
               grepped.
             </li>
             <li>
-              Impact questions left out a class&apos;s callers: for{" "}
-              <code className="font-mono">getPiiFreeCredential</code>, whose callers include the default-exported{" "}
-              <code className="font-mono">EventManager</code> class, graphify-arm runs listed {perRun(piiQ, "graphify")}{" "}
-              of {piiQ.nonTestTotal + piiQ.testTotal} files and plain runs {perRun(piiQ, "plain")}. graph.json does have
-              the edges (for example handleCancelBooking.ts calls EventManager), but none of the three graphify-arm answers listed
-              EventManager&apos;s callers, while two of the three plain answers did. On the other 5 impact questions every graphify-arm run was complete; plain missed files in one run each on nameOfDay and loadTranslations. Across all six:
-              files missed {missed(impGraph)} vs {missed(impPlain)} of {impPlain.nonTestTotal + impPlain.testTotal}, files
-              outside the two-level set {impGraph.wrong} vs {impPlain.wrong} (9 of plain&apos;s 10 were level-3 callers,
-              one level further than asked).
+              Impact questions need two hops, and the agents took one with graphify. On{" "}
+              <code className="font-mono">getPiiFreeCredential</code> all three graphify-arm runs made one call,{" "}
+              <code className="font-mono">graphify query &quot;who calls getPiiFreeCredential&quot; | head -40</code>. Its
+              output names the default-exported <code className="font-mono">EventManager</code> class but not
+              EventManager&apos;s own callers (handleCancelBooking.ts and others), and the agents did the second hop with
+              ripgrep, which missed them: {perRun(piiQ, "graphify")} of {piiQ.nonTestTotal + piiQ.testTotal} files.
+              Plain runs listed {perRun(piiQ, "plain")}; runs 2 and 3 found EventManager&apos;s callers.{" "}
+              <code className="font-mono">graphify affected &quot;getPiiFreeCredential()&quot; --depth 2</code> on the same
+              graph lists all {AFFECTED.total} (plus {AFFECTED.extra} files that only import a name in the chain). The
+              rule that <code className="font-mono">graphify install</code> writes names query, path and explain, not
+              affected; adding “for what-breaks questions run <code className="font-mono">graphify affected X --depth
+              2</code>” is the change I&apos;d try next. I did not test it. On the other 5 impact questions every
+              graphify-arm run was complete; plain missed files in one run each on nameOfDay and loadTranslations.
+              Files outside the two-level set: {impGraph.wrong} vs {impPlain.wrong} (9 of plain&apos;s 10 were level-3
+              callers).
             </li>
             <li>
               Building cal.com&apos;s graph (5,035 TypeScript files, commit {CALCOM_COMMIT}) took 117 s on a laptop
