@@ -169,17 +169,23 @@ export default function Home() {
           <p className="mx-auto mt-8 max-w-2xl text-center text-lg text-ink">
             graphify&apos;s graph had the answers to “what breaks if I change this?” on cal.com. Claude Code got closer
             only when one added rule line pointed it at <code className="font-mono">graphify affected</code>, and
-            then it cut the output short.
+            even then the agent read only the first 60 lines of its answer.
           </p>
           <div className="mx-auto mt-10 grid max-w-4xl gap-3 sm:grid-cols-3">
             <Stat value={`${AFFECTED.hit}/${AFFECTED.total}`} label="files graphify affected --depth 2 returns on the hardest impact question" />
             <Stat
               value={`${missed(impGraph)} → ${missed(ruleGraph)}`}
-              label={`impact files missed of ${impPlain.nonTestTotal + impPlain.testTotal} with graphify: default install → plus one rule line (plain grep: ${missed(impPlain)})`}
+              label={`impact files missed of ${impPlain.nonTestTotal + impPlain.testTotal}, default install → one rule line (plain Claude Code: ${missed(impPlain)}); files outside the set ${impGraph.wrong} → ${ruleGraph.wrong}. All from one question, 3 runs: directional`}
             />
             <Stat value="lines 90–114" label="where the still-missed files sit in affected's 134-line output; every run read it through head -60" />
           </div>
-          <p className="mx-auto mt-8 max-w-2xl text-center text-sm text-ink">
+          <div className="mx-auto mt-6 max-w-3xl">
+            <div className="font-mono text-xs text-ink">The line added to the rule graphify install writes:</div>
+            <pre className="mt-1 overflow-x-auto bg-ink p-3 font-mono text-xs text-white">
+{`- For "what breaks if I change X" or "who depends on X" questions, run \`graphify affected "<X>()" --depth 2\` first: it returns callers and their callers in one call.`}
+            </pre>
+          </div>
+          <p className="mx-auto mt-6 max-w-2xl text-center text-sm text-ink">
             {graphRuns * 2 + ruleGraph.runs} real Claude Code runs, scored by script against compiler-parsed ground
             truth. With the default install agents used graphify in {used}/{graphRuns} runs, always as one{" "}
             <code className="font-mono">graphify query</code>, and the graph itself linked {graphNonTest} of{" "}
@@ -225,7 +231,8 @@ export default function Home() {
           <h2 className="font-mono text-2xl text-ink">What graphify could act on</h2>
           <ul className="mt-4 max-w-3xl list-disc space-y-2 pl-5 text-body">
             <li>
-              Read straight from <code className="font-mono">graph.json</code> (no agent), graphify links{" "}
+              <strong className="text-ink">The graph is right on non-test callers.</strong> Read straight from{" "}
+              <code className="font-mono">graph.json</code> (no agent), graphify links{" "}
               {graphNonTest} of {graphNonTestTotal} non-test caller files on cal.com, and on the same-named
               functions it links {amb.graph.extra} callers of the other definition. The one miss is
               controlled-dialog/index.tsx, which defines its own <code className="font-mono">Dialog</code> and wraps the
@@ -234,8 +241,8 @@ export default function Home() {
               one graphify query, not from the graph.
             </li>
             <li>
-              Test files, a known gap measured on a real repo: the graph links only {graphTest} of {graphTestTotal}{" "}
-              test-file callers with a calls edge.
+              <strong className="text-ink">Test files: a known gap, measured.</strong> The graph links only {graphTest}{" "}
+              of {graphTestTotal} test-file callers with a calls edge.
               Example: <code className="font-mono">apps/web/pages/api/book/recurring-event.test.ts</code> imports and
               calls <code className="font-mono">expectSuccessfulCalendarEventCreationInCalendar</code> inside an{" "}
               <code className="font-mono">it</code> block; graph.json has the imports edge but no calls edge. This is the
@@ -251,7 +258,8 @@ export default function Home() {
               grepped.
             </li>
             <li>
-              Impact questions, step by step on the hardest one (<code className="font-mono">getPiiFreeCredential</code>,{" "}
+              <strong className="text-ink">Impact questions: agents use one query, and truncate affected.</strong> Step
+              by step on the hardest one (<code className="font-mono">getPiiFreeCredential</code>,{" "}
               {piiQ.nonTestTotal + piiQ.testTotal} files within two levels):
               <ol className="mt-2 list-decimal space-y-1 pl-5">
                 <li>
@@ -280,7 +288,7 @@ export default function Home() {
               {impGraph.wrong}, rule line {ruleGraph.wrong} (one run listed import-only files from affected).
             </li>
             <li>
-              Building cal.com&apos;s graph (5,035 TypeScript files, commit {CALCOM_COMMIT}) took 117 s on a laptop
+              <strong className="text-ink">Build cost.</strong> Building cal.com&apos;s graph (5,035 TypeScript files, commit {CALCOM_COMMIT}) took 117 s on a laptop
               with no LLM calls: 38,039 nodes, 103,398 edges.
             </li>
           </ul>
