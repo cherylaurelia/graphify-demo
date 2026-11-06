@@ -2,6 +2,7 @@
  {
   "label": "calcom-impact",
   "title": "cal.com, what breaks if I change X (two levels of callers)",
+  "graphifyLabel": "+ graphify",
   "model": "sonnet",
   "claudeCode": "2.1.318 (Claude Code)",
   "at": "2026-11-06T06:24:19.310Z",
@@ -279,8 +280,289 @@
   }
  },
  {
+  "label": "calcom-impact-rule",
+  "title": "same impact questions, graphify rule plus one line about graphify affected",
+  "graphifyLabel": "+ graphify + rule line",
+  "model": "sonnet",
+  "claudeCode": "2.1.318 (Claude Code)",
+  "at": "2026-11-06T06:24:19.310Z",
+  "symbols": 6,
+  "arms": [
+   {
+    "arm": "plain",
+    "runs": 18,
+    "usedGraphify": 0,
+    "allNonTestFound": 15,
+    "nonTestFound": 402,
+    "nonTestTotal": 423,
+    "testFound": 96,
+    "testTotal": 99,
+    "wrong": 10,
+    "unparsed": 0,
+    "medianToolCalls": 4,
+    "rangeToolCalls": [
+     3,
+     9
+    ],
+    "medianInputTokens": 290843,
+    "medianWallS": 33,
+    "costUsd": 2.76
+   },
+   {
+    "arm": "graphify",
+    "runs": 18,
+    "usedGraphify": 18,
+    "allNonTestFound": 16,
+    "nonTestFound": 406,
+    "nonTestTotal": 423,
+    "testFound": 96,
+    "testTotal": 99,
+    "wrong": 11,
+    "unparsed": 0,
+    "medianToolCalls": 3,
+    "rangeToolCalls": [
+     1,
+     9
+    ],
+    "medianInputTokens": 237913,
+    "medianWallS": 33,
+    "costUsd": 3
+   }
+  ],
+  "questions": [
+   {
+    "symbol": "mockCalendar",
+    "def": "packages/testing/src/lib/bookingScenario/bookingScenario.ts",
+    "nonTestTotal": 0,
+    "testTotal": 19,
+    "arms": {
+     "plain": {
+      "nonTest": [
+       0,
+       0,
+       0
+      ],
+      "test": [
+       19,
+       19,
+       19
+      ],
+      "used": 0,
+      "medianToolCalls": 3
+     },
+     "graphify": {
+      "nonTest": [
+       0,
+       0,
+       0
+      ],
+      "test": [
+       19,
+       19,
+       19
+      ],
+      "used": 3,
+      "medianToolCalls": 3
+     }
+    }
+   },
+   {
+    "symbol": "nameOfDay",
+    "def": "packages/lib/weekday.ts",
+    "nonTestTotal": 11,
+    "testTotal": 2,
+    "arms": {
+     "plain": {
+      "nonTest": [
+       6,
+       11,
+       11
+      ],
+      "test": [
+       2,
+       2,
+       2
+      ],
+      "used": 0,
+      "medianToolCalls": 4
+     },
+     "graphify": {
+      "nonTest": [
+       11,
+       11,
+       11
+      ],
+      "test": [
+       2,
+       2,
+       2
+      ],
+      "used": 3,
+      "medianToolCalls": 3
+     }
+    }
+   },
+   {
+    "symbol": "getHttpStatusCode",
+    "def": "packages/lib/server/getServerErrorFromUnknown.ts",
+    "nonTestTotal": 31,
+    "testTotal": 3,
+    "arms": {
+     "plain": {
+      "nonTest": [
+       31,
+       31,
+       31
+      ],
+      "test": [
+       3,
+       3,
+       3
+      ],
+      "used": 0,
+      "medianToolCalls": 4
+     },
+     "graphify": {
+      "nonTest": [
+       31,
+       31,
+       31
+      ],
+      "test": [
+       3,
+       3,
+       3
+      ],
+      "used": 3,
+      "medianToolCalls": 4
+     }
+    }
+   },
+   {
+    "symbol": "rateLimiter",
+    "def": "packages/lib/rateLimit.ts",
+    "nonTestTotal": 23,
+    "testTotal": 2,
+    "arms": {
+     "plain": {
+      "nonTest": [
+       23,
+       23,
+       23
+      ],
+      "test": [
+       2,
+       2,
+       2
+      ],
+      "used": 0,
+      "medianToolCalls": 3
+     },
+     "graphify": {
+      "nonTest": [
+       23,
+       23,
+       23
+      ],
+      "test": [
+       2,
+       2,
+       2
+      ],
+      "used": 3,
+      "medianToolCalls": 2
+     }
+    }
+   },
+   {
+    "symbol": "loadTranslations",
+    "def": "packages/i18n/server.ts",
+    "nonTestTotal": 49,
+    "testTotal": 3,
+    "arms": {
+     "plain": {
+      "nonTest": [
+       49,
+       49,
+       49
+      ],
+      "test": [
+       3,
+       3,
+       2
+      ],
+      "used": 0,
+      "medianToolCalls": 6
+     },
+     "graphify": {
+      "nonTest": [
+       49,
+       49,
+       49
+      ],
+      "test": [
+       3,
+       3,
+       3
+      ],
+      "used": 3,
+      "medianToolCalls": 5
+     }
+    }
+   },
+   {
+    "symbol": "getPiiFreeCredential",
+    "def": "packages/lib/piiFreeData.ts",
+    "nonTestTotal": 27,
+    "testTotal": 4,
+    "arms": {
+     "plain": {
+      "nonTest": [
+       14,
+       27,
+       24
+      ],
+      "test": [
+       2,
+       4,
+       4
+      ],
+      "used": 0,
+      "medianToolCalls": 7
+     },
+     "graphify": {
+      "nonTest": [
+       19,
+       27,
+       18
+      ],
+      "test": [
+       3,
+       3,
+       3
+      ],
+      "used": 3,
+      "medianToolCalls": 9
+     }
+    }
+   }
+  ],
+  "graph": {
+   "nonTest": {
+    "found": 0,
+    "total": 0
+   },
+   "test": {
+    "found": 0,
+    "total": 0
+   },
+   "extra": 0
+  }
+ },
+ {
   "label": "calcom-ambiguous",
   "title": "cal.com, same-named functions",
+  "graphifyLabel": "+ graphify",
   "model": "sonnet",
   "claudeCode": "2.1.318 (Claude Code)",
   "at": "2026-11-06T06:12:39.442Z",
@@ -560,6 +842,7 @@
  {
   "label": "calcom",
   "title": "cal.com, uniquely named functions",
+  "graphifyLabel": "+ graphify",
   "model": "sonnet",
   "claudeCode": "2.1.318 (Claude Code)",
   "at": "2026-11-06T05:34:24.919Z",
@@ -983,6 +1266,7 @@
  {
   "label": "tokenboard",
   "title": "tokenboard (small control repo)",
+  "graphifyLabel": "+ graphify",
   "model": "sonnet",
   "claudeCode": "2.1.318 (Claude Code)",
   "at": "2026-11-06T05:35:14.812Z",

@@ -62,7 +62,7 @@ function ArmTable({ set }: { set: Set }) {
         <tbody>
           {rows.map((a) => (
             <tr key={a.arm} className="border-b border-line">
-              <td className="py-2 pr-3 font-mono text-ink">{a.arm === "plain" ? "plain" : "+ graphify"}</td>
+              <td className="py-2 pr-3 font-mono text-ink">{a.arm === "plain" ? "plain" : set.graphifyLabel}</td>
               <td className="py-2 pr-3">{a.arm === "plain" ? "n/a" : `${a.usedGraphify}/${a.runs}`}</td>
               <td className="py-2 pr-3">{a.allNonTestFound}/{a.runs}</td>
               <td className="py-2 pr-3">{a.nonTestFound}/{a.nonTestTotal}</td>
@@ -122,6 +122,9 @@ export default function Home() {
   const uniq = setByLabel("calcom");
   const small = setByLabel("tokenboard");
   const all = [impact, amb, uniq, small];
+  const rule = setByLabel("calcom-impact-rule");
+  const ruleGraph = arm(rule, "graphify");
+  const tables = [impact, rule, amb, uniq, small];
   let used = 0;
   let graphRuns = 0;
   let graphNonTest = 0;
@@ -147,6 +150,7 @@ export default function Home() {
   const piiQ = impact.questions.find((q) => q.symbol === "getPiiFreeCredential");
 
   if (!piiQ) throw new Error("impact set has no getPiiFreeCredential row");
+  const rulePii = rule.questions.find((q) => q.symbol === "getPiiFreeCredential") ?? piiQ
   const perRun = (q: typeof piiQ, a: "plain" | "graphify") => q.arms[a].nonTest.map((n, i) => n + q.arms[a].test[i]).join(", ");
 
   return (
@@ -163,22 +167,24 @@ export default function Home() {
             <span className="box-decoration-clone bg-ink px-3 py-1 leading-[1.6]">graphify on cal.com, measured</span>
           </h1>
           <p className="mx-auto mt-8 max-w-2xl text-center text-lg text-ink">
-            The question: in a 5,000-file monorepo, does Claude Code trace callers more reliably with graphify installed
-            the documented way? {graphRuns * 2} real runs, scored by script against compiler-parsed ground truth.
-          </p>
-          <p className="mx-auto mt-3 max-w-2xl text-center text-lg text-ink">
-            The graph was right: {graphNonTest} of {graphNonTestTotal} non-test callers. The agents using it were not
-            better than grep: {missed(impGraph)} vs {missed(impPlain)} files missed of{" "}
-            {impPlain.nonTestTotal + impPlain.testTotal} on impact questions, and 4–60% more input tokens on who-calls
-            questions. Every graphify run asked <code className="font-mono">graphify query</code> once; the command
-            that answers “what breaks” in one call, <code className="font-mono">graphify affected --depth 2</code>, was
-            never used.
+            graphify&apos;s graph had the answers to “what breaks if I change this?” on cal.com. Claude Code got closer
+            only when one added rule line pointed it at <code className="font-mono">graphify affected</code>, and
+            then it cut the output short.
           </p>
           <div className="mx-auto mt-10 grid max-w-4xl gap-3 sm:grid-cols-3">
-            <Stat value={`${used}/${graphRuns}`} label="runs used graphify when installed: the hooks and CLAUDE.md rule that graphify install --project writes send the agent there first" />
-            <Stat value={`${graphNonTest}/${graphNonTestTotal}`} label="non-test callers graph.json links on its own on cal.com, with 0 callers of a different same-named function" />
-            <Stat value={`${AFFECTED.hit}/${AFFECTED.total}`} label={`files graphify affected --depth 2 returns on the worst impact question, where agents with graphify listed ${perRun(piiQ, "graphify")}`} />
+            <Stat value={`${AFFECTED.hit}/${AFFECTED.total}`} label="files graphify affected --depth 2 returns on the hardest impact question" />
+            <Stat
+              value={`${missed(impGraph)} → ${missed(ruleGraph)}`}
+              label={`impact files missed of ${impPlain.nonTestTotal + impPlain.testTotal} with graphify: default install → plus one rule line (plain grep: ${missed(impPlain)})`}
+            />
+            <Stat value="lines 90–114" label="where the still-missed files sit in affected's 134-line output; every run read it through head -60" />
           </div>
+          <p className="mx-auto mt-8 max-w-2xl text-center text-sm text-ink">
+            {graphRuns * 2 + ruleGraph.runs} real Claude Code runs, scored by script against compiler-parsed ground
+            truth. With the default install agents used graphify in {used}/{graphRuns} runs, always as one{" "}
+            <code className="font-mono">graphify query</code>, and the graph itself linked {graphNonTest} of{" "}
+            {graphNonTestTotal} non-test callers.
+          </p>
         </div>
       </section>
 
@@ -189,12 +195,14 @@ export default function Home() {
           {amb.claudeCode.replace(/ \(Claude Code\)$/, "")}) asking one question: either which files could break if
           the signature of <code className="font-mono">X</code> changes (callers and callers of callers), or which
           files call or use <code className="font-mono">X</code>. 3 runs per question per arm; per-question tables show
-          every run, not averages. Input tokens: median {k(impGraph.medianInputTokens)} vs{" "}
-          {k(impPlain.medianInputTokens)} on impact questions; on who-calls sets graphify cost more ({k(arm(amb, "graphify").medianInputTokens)} vs{" "}
-          {k(arm(amb, "plain").medianInputTokens)}, {k(arm(uniq, "graphify").medianInputTokens)} vs {k(arm(uniq, "plain").medianInputTokens)},{" "}
-          {k(arm(small, "graphify").medianInputTokens)} vs {k(arm(small, "plain").medianInputTokens)}).
+          every run, not averages. Median input tokens on impact questions: {k(impPlain.medianInputTokens)} plain,{" "}
+          {k(impGraph.medianInputTokens)} with graphify, {k(ruleGraph.medianInputTokens)} with the rule line. On
+          cal.com who-calls questions graphify cost about 4% more ({k(arm(amb, "graphify").medianInputTokens)} vs{" "}
+          {k(arm(amb, "plain").medianInputTokens)}, {k(arm(uniq, "graphify").medianInputTokens)} vs{" "}
+          {k(arm(uniq, "plain").medianInputTokens)}); on the small tokenboard control, 60% more ({k(arm(small, "graphify").medianInputTokens)} vs{" "}
+          {k(arm(small, "plain").medianInputTokens)}).
         </p>
-        {all.map((s) => (
+        {tables.map((s) => (
           <div key={s.label} className="mt-10">
             <h3 className="font-mono text-lg text-ink">
               {s.title} <span className="text-sm text-muted">· {s.symbols} functions</span>
@@ -243,21 +251,33 @@ export default function Home() {
               grepped.
             </li>
             <li>
-              Impact questions need two hops, and the agents took one with graphify. On{" "}
-              <code className="font-mono">getPiiFreeCredential</code> all three graphify-arm runs made one call,{" "}
-              <code className="font-mono">graphify query &quot;who calls getPiiFreeCredential&quot; | head -40</code>. Its
-              output names the default-exported <code className="font-mono">EventManager</code> class but not
-              EventManager&apos;s own callers (handleCancelBooking.ts and others), and the agents did the second hop with
-              ripgrep, which missed them: {perRun(piiQ, "graphify")} of {piiQ.nonTestTotal + piiQ.testTotal} files.
-              Plain runs listed {perRun(piiQ, "plain")}; runs 2 and 3 found EventManager&apos;s callers.{" "}
-              <code className="font-mono">graphify affected &quot;getPiiFreeCredential()&quot; --depth 2</code> on the same
-              graph lists all {AFFECTED.total} (plus {AFFECTED.extra} files that only import a name in the chain). The
-              rule that <code className="font-mono">graphify install</code> writes names query, path and explain, not
-              affected; adding “for what-breaks questions run <code className="font-mono">graphify affected X --depth
-              2</code>” is the change I&apos;d try next. I did not test it. On the other 5 impact questions every
-              graphify-arm run was complete; plain missed files in one run each on nameOfDay and loadTranslations.
-              Files outside the two-level set: {impGraph.wrong} vs {impPlain.wrong} (9 of plain&apos;s 10 were level-3
-              callers).
+              Impact questions, step by step on the hardest one (<code className="font-mono">getPiiFreeCredential</code>,{" "}
+              {piiQ.nonTestTotal + piiQ.testTotal} files within two levels):
+              <ol className="mt-2 list-decimal space-y-1 pl-5">
+                <li>
+                  Default install: each run made one call, <code className="font-mono">graphify query &quot;who calls
+                  getPiiFreeCredential&quot; | head -40</code>. It names the default-exported{" "}
+                  <code className="font-mono">EventManager</code> class but not EventManager&apos;s callers, and the
+                  agent did the second hop with ripgrep: {perRun(piiQ, "graphify")} files. Plain runs:{" "}
+                  {perRun(piiQ, "plain")}.
+                </li>
+                <li>
+                  On the same graph, <code className="font-mono">graphify affected &quot;getPiiFreeCredential()&quot;
+                  --depth 2</code> lists all {AFFECTED.total}, plus {AFFECTED.extra} files that only import a name in
+                  the chain. The installed rule names query, path and explain, not affected.
+                </li>
+                <li>
+                  With <a className="underline" href={`${REPO}/blob/main/bench/rule-line.md`}>one added rule line</a>,
+                  every run called <code className="font-mono">graphify affected --depth 2</code> ({ruleGraph.usedGraphify}/
+                  {ruleGraph.runs}). The other 5 questions were complete in every run; this one went to{" "}
+                  {perRun(rulePii, "graphify")}. All three runs read the output through{" "}
+                  <code className="font-mono">head -60</code>; every file they missed sits at lines 90–114 of its 134
+                  lines (handleCancelBooking.ts is line 107). Run 2 recovered most of them with ripgrep. A file-level summary at the top of affected&apos;s
+                  output, or “read the whole output” in the rule, are the next things I&apos;d try; neither is tested.
+                </li>
+              </ol>
+              Files outside the two-level set: plain {impPlain.wrong} (9 were level-3 callers), graphify{" "}
+              {impGraph.wrong}, rule line {ruleGraph.wrong} (one run listed import-only files from affected).
             </li>
             <li>
               Building cal.com&apos;s graph (5,035 TypeScript files, commit {CALCOM_COMMIT}) took 117 s on a laptop

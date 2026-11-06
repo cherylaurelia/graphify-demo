@@ -8,7 +8,7 @@ from the TypeScript parser.
 
 Live page: see the repo description. Unofficial demo by Cheryl Aurelia: not affiliated with Graphify Labs.
 
-## Results (162 runs, Sonnet, Claude Code 2.1.318, 3 runs per question per arm)
+## Results (180 runs, Sonnet, Claude Code 2.1.318, 3 runs per question per arm)
 
 | set | arm | used graphify | files found (3 runs summed) | outside the set | median input tokens |
 |---|---|---|---|---|---|
@@ -25,8 +25,11 @@ Live page: see the repo description. Unofficial demo by Cheryl Aurelia: not affi
 - Every graphify-arm run started with one `graphify query`; none used `graphify affected`. On the worst impact
   question (getPiiFreeCredential) `graphify affected "getPiiFreeCredential()" --depth 2` on the same graph lists all
   31 truth files (plus 55 that only import a name in the chain; `bench/results/affected-getPiiFreeCredential.txt`),
-  while agents with graphify listed 19–22. The rule `graphify install` writes names query/path/explain, not affected;
-  pointing what-breaks questions at `graphify affected X --depth 2` is untested here.
+  while agents with graphify listed 19–22. The rule `graphify install` writes names query/path/explain, not affected.
+- Rule-line arm (18 runs, `bench/rule-line.md`): one added line pointing what-breaks questions at
+  `graphify affected X --depth 2`. Every run called it; impact files missed went from 33 to 20 of 522 (plain 24),
+  median input tokens 238K (plain 291K, default graphify 302K). All 20 misses are getPiiFreeCredential; every run read
+  `affected` through `head -60`, and the missed files sit at lines 90–114 of its 134-line output.
 - Impact questions: 5 of 6 came out the same in both arms. On getPiiFreeCredential (callers include the default-exported EventManager class) graphify-arm runs stopped at 19–22 of 31 files; plain runs found 16, 31 and 28. graph.json has those edges; the agent didn't follow them. Files outside the two-level set: 2 vs 10 (9 of plain's were level-3 callers).
 - Read straight from `graph.json`, graphify links 282 of 283 non-test caller files on cal.com and none of the
   callers of a different same-named definition. Test-file callers: 3 of 13 have a calls edge. This is the known

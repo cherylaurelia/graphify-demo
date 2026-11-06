@@ -51,8 +51,11 @@ export const question = (s) => truth.rule === "impact-depth-2"
 
 const jobs = []
 
+// --arms graphify reruns only the graphify arm (e.g. against a copy with a changed install rule).
+const arms = (opts.arms ?? "plain,graphify").split(",")
+
 for (let rep = 1; rep <= Number(opts.reps); rep++) {
-  for (const s of symbols) for (const arm of ["plain", "graphify"]) jobs.push({ s, arm, rep })
+  for (const s of symbols) for (const arm of arms) jobs.push({ s, arm, rep })
 }
 
 // Interleave arms and symbols so time-of-day or rate limits don't land on one arm.
