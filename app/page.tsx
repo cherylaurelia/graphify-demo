@@ -181,7 +181,7 @@ export default function Home() {
           </div>
           <div className="mx-auto mt-6 max-w-3xl">
             <div className="font-mono text-xs text-ink">The line added to the rule graphify install writes:</div>
-            <pre className="mt-1 overflow-x-auto bg-ink p-3 font-mono text-xs text-white">
+            <pre className="mt-1 whitespace-pre-wrap break-words bg-ink p-3 font-mono text-xs text-white">
 {`- For "what breaks if I change X" or "who depends on X" questions, run \`graphify affected "<X>()" --depth 2\` first: it returns callers and their callers in one call.`}
             </pre>
           </div>
