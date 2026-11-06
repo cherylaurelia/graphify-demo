@@ -62,7 +62,7 @@ function ArmTable({ set }: { set: Set }) {
         <tbody>
           {rows.map((a) => (
             <tr key={a.arm} className="border-b border-line">
-              <td className="py-2 pr-3 font-mono text-ink">{a.arm === "plain" ? "plain" : set.graphifyLabel}</td>
+              <td className="whitespace-nowrap py-2 pr-3 font-mono text-ink">{a.arm === "plain" ? "plain" : set.graphifyLabel}</td>
               <td className="py-2 pr-3">{a.arm === "plain" ? "n/a" : `${a.usedGraphify}/${a.runs}`}</td>
               <td className="py-2 pr-3">{a.allNonTestFound}/{a.runs}</td>
               <td className="py-2 pr-3">{a.nonTestFound}/{a.nonTestTotal}</td>
@@ -167,17 +167,18 @@ export default function Home() {
             <span className="box-decoration-clone bg-ink px-3 py-1 leading-[1.6]">graphify on cal.com, measured</span>
           </h1>
           <p className="mx-auto mt-8 max-w-2xl text-center text-lg text-ink">
-            graphify&apos;s graph had the answers to “what breaks if I change this?” on cal.com. Claude Code got closer
-            only when one added rule line pointed it at <code className="font-mono">graphify affected</code>, and
-            even then the agent read only the first 60 lines of its answer.
+            Two small changes for graphify, from {graphRuns * 2 + ruleGraph.runs} Claude Code runs on cal.com: name{" "}
+            <code className="font-mono">graphify affected</code> in the rule <code className="font-mono">graphify install</code>{" "}
+            writes (tested here), and put a file list at the top of affected&apos;s output, because agents read it
+            through <code className="font-mono">head -60</code> (not tested).
           </p>
           <div className="mx-auto mt-10 grid max-w-4xl gap-3 sm:grid-cols-3">
-            <Stat value={`${AFFECTED.hit}/${AFFECTED.total}`} label="files graphify affected --depth 2 returns on the hardest impact question" />
+            <Stat value={`0/${graphRuns}`} label="default-install runs that called graphify affected; all used one graphify query. With one added rule line: 18/18" />
             <Stat
-              value={`${missed(impGraph)} → ${missed(ruleGraph)}`}
-              label={`impact files missed of ${impPlain.nonTestTotal + impPlain.testTotal}, default install → one rule line (plain Claude Code: ${missed(impPlain)}); files outside the set ${impGraph.wrong} → ${ruleGraph.wrong}. All from one question, 3 runs: directional`}
+              value={`${missed(impPlain)} · ${missed(impGraph)} · ${missed(ruleGraph)}`}
+              label={`impact files missed of ${impPlain.nonTestTotal + impPlain.testTotal}: plain Claude Code · graphify · graphify + rule line. Directional: the gap is one question, 3 runs`}
             />
-            <Stat value="lines 90–114" label="where the still-missed files sit in affected's 134-line output; every run read it through head -60" />
+            <Stat value={`${impGraph.wrong} → ${ruleGraph.wrong}`} label="files outside the asked set, graphify → graphify + rule line (import-only files from affected). Same question, 3 runs" />
           </div>
           <div className="mx-auto mt-6 max-w-3xl">
             <div className="font-mono text-xs text-ink">The line added to the rule graphify install writes:</div>
@@ -201,7 +202,8 @@ export default function Home() {
           {amb.claudeCode.replace(/ \(Claude Code\)$/, "")}) asking one question: either which files could break if
           the signature of <code className="font-mono">X</code> changes (callers and callers of callers), or which
           files call or use <code className="font-mono">X</code>. 3 runs per question per arm; per-question tables show
-          every run, not averages. Median input tokens on impact questions: {k(impPlain.medianInputTokens)} plain,{" "}
+          every run, not averages. “Files missed” in the hero counts non-test and test callers together (on impact
+          questions 522 = {impPlain.nonTestTotal} non-test + {impPlain.testTotal} test, summed over 3 runs). Median input tokens on impact questions: {k(impPlain.medianInputTokens)} plain,{" "}
           {k(impGraph.medianInputTokens)} with graphify, {k(ruleGraph.medianInputTokens)} with the rule line. On
           cal.com who-calls questions graphify cost about 4% more ({k(arm(amb, "graphify").medianInputTokens)} vs{" "}
           {k(arm(amb, "plain").medianInputTokens)}, {k(arm(uniq, "graphify").medianInputTokens)} vs{" "}
@@ -258,8 +260,14 @@ export default function Home() {
               grepped.
             </li>
             <li>
-              <strong className="text-ink">Impact questions: agents use one query, and truncate affected.</strong> Step
-              by step on the hardest one (<code className="font-mono">getPiiFreeCredential</code>,{" "}
+              <strong className="text-ink">Impact questions: agents use one query, and truncate affected.</strong> With
+              the default rule every run asked one <code className="font-mono">graphify query</code> and did the second
+              hop with ripgrep; on the same graph <code className="font-mono">graphify affected --depth 2</code> lists all{" "}
+              {AFFECTED.total} files of the hardest question. With one rule line every run called affected, but read it
+              through <code className="font-mono">head -60</code>, and the files still missed sit at lines 90–114.
+              <details className="mt-2">
+              <summary className="cursor-pointer font-mono text-sm text-ink">Step by step</summary>
+              On the hardest one (<code className="font-mono">getPiiFreeCredential</code>,{" "}
               {piiQ.nonTestTotal + piiQ.testTotal} files within two levels):
               <ol className="mt-2 list-decimal space-y-1 pl-5">
                 <li>
@@ -284,6 +292,7 @@ export default function Home() {
                   output, or “read the whole output” in the rule, are the next things I&apos;d try; neither is tested.
                 </li>
               </ol>
+              </details>
               Files outside the two-level set: plain {impPlain.wrong} (9 were level-3 callers), graphify{" "}
               {impGraph.wrong}, rule line {ruleGraph.wrong} (one run listed import-only files from affected).
             </li>
